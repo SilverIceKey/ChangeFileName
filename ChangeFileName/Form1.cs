@@ -32,18 +32,18 @@ namespace ChangeFileName
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
             }
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 fileList = new List<BaseFile>();
-                for (int length=0; length < openFileDialog.FileNames.Length; length++)
+                for (int length = 0; length < openFileDialog.FileNames.Length; length++)
                 {
                     BaseFile file = new BaseFile();
                     file.fileUrl = openFileDialog.FileNames[length];
                     fileList.Add(file);
                 }
-                foreach(BaseFile tmp in fileList)
+                foreach (BaseFile tmp in fileList)
                 {
-                    string fileName = tmp.fileUrl.Substring(tmp.fileUrl.LastIndexOf("\\")+1);
+                    string fileName = tmp.fileUrl.Substring(tmp.fileUrl.LastIndexOf("\\") + 1);
                     fileSelected.Items.Add(fileName);
                 }
             }
@@ -68,49 +68,70 @@ namespace ChangeFileName
                         }
                     }
                 }
+
+                MessageBox.Show("修改完成");
             }
             else
             {
-                if (fileListMedia.Count != 0)
+
+                Regex regex = new Regex(@"\[\d{2,3}\]");
+                Regex numRegex = new Regex(@"\s\d{2,3}\s");
+                int fileListMediaCount = fileListMedia.Count;
+                int fileListMediaRealCount = 0;
+                for (int i = 0; i < fileListMedia.Count; i++)
                 {
-                    Regex regex = new Regex(@"\[\d{2,3}\]");
-                    Regex numRegex = new Regex(@"\s\d{2,3}\s");
-                    for(int i = 0; i < fileListMedia.Count; i++)
+                    string mediaDir = fileListMedia[i].fileUrl.Substring(0, fileListMedia[i].fileUrl.LastIndexOf("\\") + 1);
+                    string mediaName = fileListMedia[i].fileUrl.Substring(fileListMedia[i].fileUrl.LastIndexOf("\\") + 1);
+                    string mediaEqNumResult = numRegex.Match(mediaName).ToString();
+                    if (!string.IsNullOrEmpty(mediaEqNumResult))
                     {
-                        string mediaDir = fileListMedia[i].fileUrl.Substring(0, fileListMedia[i].fileUrl.LastIndexOf("\\") + 1);
-                        string mediaName = fileListMedia[i].fileUrl.Substring(fileListMedia[i].fileUrl.LastIndexOf("\\")+1);
-                        string mediaEqNumResult = numRegex.Match(mediaName).ToString();
-                        if (!string.IsNullOrEmpty(mediaEqNumResult))
+                        mediaName.Replace(mediaEqNumResult, "[" + mediaEqNumResult.Trim() + "]");
+                    }
+                    int mediaNum;
+                    try
+                    {
+                        mediaNum = Convert.ToInt32(regex.Match(mediaName).ToString().Replace("[", "").Replace("]", ""));
+                    }
+                    catch (Exception exception)
+                    {
+                        continue;
+                    }
+                    for (int j = 0; j < fileList.Count; j++)
+                    {
+                        string assName =
+                            fileList[j].fileUrl.Substring(fileList[i].fileUrl.LastIndexOf("\\") + 1);
+                        string assEqNumResult = numRegex.Match(assName).ToString();
+                        if (!string.IsNullOrEmpty(assEqNumResult))
                         {
-                            mediaName.Replace(mediaEqNumResult, "[" + mediaEqNumResult.Trim() + "]");
+                            mediaName.Replace(assEqNumResult, "[" + assEqNumResult.Trim() + "]");
                         }
-                        int mediaNum = Convert.ToInt32(regex.Match(mediaName).ToString().Replace("[","").Replace("]",""));
-                        for (int j = 0; j < fileList.Count; j++)
+                        int assNum;
+                        try
                         {
-                            string assName =
-                                fileList[j].fileUrl.Substring(fileList[i].fileUrl.LastIndexOf("\\") + 1);
-                            string assEqNumResult = numRegex.Match(assName).ToString();
-                            if (!string.IsNullOrEmpty(assEqNumResult))
+                            assNum = Convert.ToInt32(regex.Match(assName).ToString().Replace("[", "").Replace("]", ""));
+                        }
+                        catch (Exception exception)
+                        {
+                            continue;
+                        }
+                        if (assNum == mediaNum)
+                        {
+                            string ext = mediaName.Substring(mediaName.LastIndexOf(".") + 1);
+                            string assDestName = mediaDir + mediaName.Replace(ext, "ass");
+                            if (System.IO.File.Exists(fileList[j].fileUrl))
                             {
-                                mediaName.Replace(assEqNumResult, "[" + assEqNumResult.Trim() + "]");
-                            }
-                            int assNum = Convert.ToInt32(regex.Match(assName).ToString().Replace("[", "").Replace("]", ""));
-                            if (assNum==mediaNum)
-                            {
-                                string ext = mediaName.Substring(mediaName.LastIndexOf(".") + 1);
-                                string assDestName = mediaDir + mediaName.Replace(ext, "ass");
-                                if (System.IO.File.Exists(fileList[j].fileUrl))
-                                {
-                                    System.IO.File.Move(fileList[j].fileUrl,assDestName);
-                                    fileList[i].fileUrl = assDestName;
-                                }
+                                System.IO.File.Move(fileList[j].fileUrl, assDestName);
+                                fileList[i].fileUrl = assDestName;
+                                fileListMediaRealCount++;
                             }
                         }
                     }
                 }
+                if (fileListMediaCount != fileListMediaRealCount)
+                {
+                    MessageBox.Show("修改完成：" + fileListMediaRealCount + "个,存在文件无 01 或者[01]关键字无法对应媒体和字幕无法修改");
+                }
             }
-            
-            MessageBox.Show("修改完成");
         }
 
         private void selectMedia_Click(object sender, EventArgs e)
