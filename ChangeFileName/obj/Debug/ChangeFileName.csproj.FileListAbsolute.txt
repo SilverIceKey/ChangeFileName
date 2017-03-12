@@ -2,8 +2,8 @@ D:\Project\C#\ChangeFileName\ChangeFileName\bin\Debug\ChangeFileName.exe.config
 D:\Project\C#\ChangeFileName\ChangeFileName\bin\Debug\ChangeFileName.exe
 D:\Project\C#\ChangeFileName\ChangeFileName\bin\Debug\ChangeFileName.pdb
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csprojResolveAssemblyReference.cache
-D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.Form1.resources
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.Properties.Resources.resources
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.GenerateResource.Cache
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.exe
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.pdb
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.Main.resources
