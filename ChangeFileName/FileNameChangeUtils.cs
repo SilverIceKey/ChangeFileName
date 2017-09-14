@@ -32,23 +32,31 @@ namespace ChangeFileName
 
         public void changeByMedia(List<BaseFile> fileListMedia,List<BaseFile> fileList  )
         {
-            Regex regex = new Regex(@"\[\d{2,3}\]");
-            Regex numRegex = new Regex(@"\s\d{2,3}\s");
+            Regex regex = new Regex(@"\[[0.0-9.0]{2,4}\]");
+            Regex numRegex = new Regex(@"\s[0.0-9.0]{2,4}\s");
             int fileListMediaCount = fileListMedia.Count;
             int fileListMediaRealCount = 0;
             for (int i = 0; i < fileListMedia.Count; i++)
             {
                 string mediaDir = fileListMedia[i].fileUrl.Substring(0, fileListMedia[i].fileUrl.LastIndexOf("\\") + 1);
                 string mediaName = fileListMedia[i].fileUrl.Substring(fileListMedia[i].fileUrl.LastIndexOf("\\") + 1);
-                string mediaEqNumResult = numRegex.Match(mediaName).ToString();
+                string mediaEqNumResult;
+                if (regex.Match(mediaName).Success)
+                {
+                    mediaEqNumResult = regex.Match(mediaName).ToString();
+                }
+                else
+                {
+                    mediaEqNumResult = numRegex.Match(mediaName).ToString();
+                }
                 if (!string.IsNullOrEmpty(mediaEqNumResult))
                 {
-                    mediaName = mediaName.Replace(mediaEqNumResult, "[" + mediaEqNumResult.Trim() + "]");
+                    mediaEqNumResult = mediaEqNumResult.Replace(mediaEqNumResult, "[" + mediaEqNumResult.Trim() + "]");
                 }
-                int mediaNum;
+                double mediaNum;
                 try
                 {
-                    mediaNum = Convert.ToInt32(regex.Match(mediaName).ToString().Replace("[", "").Replace("]", ""));
+                    mediaNum = Convert.ToDouble(mediaEqNumResult.Replace("[", "").Replace("]", ""));
                 }
                 catch (Exception exception)
                 {
@@ -58,15 +66,23 @@ namespace ChangeFileName
                 {
                     string assName =
                         fileList[j].fileUrl.Substring(fileList[i].fileUrl.LastIndexOf("\\") + 1);
-                    string assEqNumResult = numRegex.Match(assName).ToString();
+                    string assEqNumResult;
+                    if (regex.Match(assName).Success)
+                    {
+                        assEqNumResult = regex.Match(assName).ToString();
+                    }
+                    else
+                    {
+                        assEqNumResult = numRegex.Match(assName).ToString();
+                    }
                     if (!string.IsNullOrEmpty(assEqNumResult))
                     {
-                        assName = assName.Replace(assEqNumResult, "[" + assEqNumResult.Trim() + "]");
+                        assEqNumResult = assEqNumResult.Replace(assEqNumResult, "[" + assEqNumResult.Trim() + "]");
                     }
-                    int assNum;
+                    double assNum;
                     try
                     {
-                        assNum = Convert.ToInt32(regex.Match(assName).ToString().Replace("[", "").Replace("]", ""));
+                        assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", ""));
                     }
                     catch (Exception exception)
                     {

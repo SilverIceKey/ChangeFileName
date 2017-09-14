@@ -35,6 +35,7 @@ namespace ChangeFileName
             }
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                fileSelected.Items.Clear();
                 fileList = new List<BaseFile>();
                 for (int length = 0; length < openFileDialog.FileNames.Length; length++)
                 {
@@ -42,6 +43,10 @@ namespace ChangeFileName
                     file.fileUrl = openFileDialog.FileNames[length];
                     fileList.Add(file);
                 }
+                fileList.Sort(delegate (BaseFile fir,BaseFile sec)
+                {
+                    return fir.fileUrl.CompareTo(sec.fileUrl);
+                });
                 foreach (BaseFile tmp in fileList)
                 {
                     string fileName = tmp.fileUrl.Substring(tmp.fileUrl.LastIndexOf("\\") + 1);
@@ -80,6 +85,7 @@ namespace ChangeFileName
             }
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                fileSelectedMedia.Items.Clear();
                 fileListMedia = new List<BaseFile>();
                 for (int length = 0; length < openFileDialog.FileNames.Length; length++)
                 {
@@ -87,6 +93,10 @@ namespace ChangeFileName
                     file.fileUrl = openFileDialog.FileNames[length];
                     fileListMedia.Add(file);
                 }
+                fileListMedia.Sort(delegate (BaseFile fir, BaseFile sec)
+                {
+                    return fir.fileUrl.CompareTo(sec.fileUrl);
+                });
                 foreach (BaseFile tmp in fileListMedia)
                 {
                     string fileName = tmp.fileUrl.Substring(tmp.fileUrl.LastIndexOf("\\") + 1);
