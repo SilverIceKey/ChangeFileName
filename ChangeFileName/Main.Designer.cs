@@ -37,6 +37,7 @@
             this.selectFileToChange = new System.Windows.Forms.Button();
             this.fileSelectedMedia = new System.Windows.Forms.ListBox();
             this.selectMedia = new System.Windows.Forms.Button();
+            this.renamesort = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // change
@@ -118,11 +119,23 @@
             this.selectMedia.UseVisualStyleBackColor = true;
             this.selectMedia.Click += new System.EventHandler(this.selectMedia_Click);
             // 
-            // Form1
+            // renamesort
+            // 
+            this.renamesort.Location = new System.Drawing.Point(121, 415);
+            this.renamesort.Name = "renamesort";
+            this.renamesort.Size = new System.Drawing.Size(101, 23);
+            this.renamesort.TabIndex = 9;
+            this.renamesort.Text = "重新命名排序";
+            this.renamesort.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.renamesort.UseVisualStyleBackColor = true;
+            this.renamesort.Click += new System.EventHandler(this.renamesort_Click);
+            // 
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(966, 458);
+            this.Controls.Add(this.renamesort);
             this.Controls.Add(this.selectMedia);
             this.Controls.Add(this.fileSelectedMedia);
             this.Controls.Add(this.selectFileToChange);
@@ -132,7 +145,7 @@
             this.Controls.Add(this.changeTo);
             this.Controls.Add(this.hasBeChanged);
             this.Controls.Add(this.change);
-            this.Name = "Form1";
+            this.Name = "Main";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -150,6 +163,7 @@
         private System.Windows.Forms.Button selectFileToChange;
         private System.Windows.Forms.ListBox fileSelectedMedia;
         private System.Windows.Forms.Button selectMedia;
+        private System.Windows.Forms.Button renamesort;
     }
 }
 

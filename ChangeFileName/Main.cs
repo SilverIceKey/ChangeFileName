@@ -60,6 +60,11 @@ namespace ChangeFileName
             utils = new FileNameChangeUtils();
             if (fileListMedia.Count == 0)
             {
+                if (string.IsNullOrEmpty(hasBeChanged.Text.ToString())||string.IsNullOrEmpty(changeTo.Text.ToString()))
+                {
+                    MessageBox.Show("操作无效");
+                    return;
+                }
                 utils.customeChange(fileList,hasBeChanged.Text.ToString(),changeTo.Text.ToString());
             }
 //            else if (fileListMedia.Count==1)
@@ -102,6 +107,19 @@ namespace ChangeFileName
                     string fileName = tmp.fileUrl.Substring(tmp.fileUrl.LastIndexOf("\\") + 1);
                     fileSelectedMedia.Items.Add(fileName);
                 }
+            }
+        }
+
+        private void renamesort_Click(object sender, EventArgs e)
+        {
+            utils = new FileNameChangeUtils();
+            if (fileList.Count>0)
+            {
+                utils.renameSort(fileList);
+            }
+            else
+            {
+                MessageBox.Show("请先选择字幕文件");
             }
         }
     }
