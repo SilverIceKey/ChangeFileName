@@ -10,41 +10,66 @@ namespace ChangeFileName
 {
     class FileNameChangeUtils
     {
-        public void customeChange(List<BaseFile> fileList, string hasBeChanged, string changeTo)
+        public void customeChange(List<string> fileList, string hasBeChanged, string changeTo)
         {
             for (int i = 0; i < fileList.Count; i++)
             {
-                BaseFile file = fileList[i];
-                string fileName = file.fileUrl.Substring(file.fileUrl.LastIndexOf("\\") + 1);
-                string fileDir = file.fileUrl.Substring(0, file.fileUrl.LastIndexOf("\\") + 1);
+                string file = fileList[i];
+                string fileName = file.Substring(file.LastIndexOf("\\") + 1);
+                string fileDir = file.Substring(0, file.LastIndexOf("\\") + 1);
                 if (fileName.Contains(hasBeChanged))
                 {
                     string destFile = fileDir + fileName.Replace(hasBeChanged, changeTo);
-                    if (System.IO.File.Exists(file.fileUrl))
+                    if (System.IO.File.Exists(file))
                     {
-                        System.IO.File.Move(file.fileUrl, destFile);
-                        fileList[i].fileUrl = destFile;
+                        System.IO.File.Move(file, destFile);
+                        fileList[i] = destFile;
                     }
                 }
             }
             MessageBox.Show("修改完成");
         }
 
-        public void changeByMedia(List<BaseFile> fileListMedia, List<BaseFile> fileList)
+        public void sortChangeed(List<string> assList, List<string> mediaList)
+        {
+            assList.Sort();
+            mediaList.Sort();
+
+            for (int i = 0; i < mediaList.Count; i++)
+            {
+                string file = mediaList[i];
+                string assFile = assList[i];
+                string fileExt = file.Substring(file.LastIndexOf(".") + 1);
+                string assExt = assFile.Substring(assFile.LastIndexOf(".") + 1);
+                string fileName = file.Substring(file.LastIndexOf("\\") + 1);
+                string fileDir = file.Substring(0, file.LastIndexOf("\\") + 1);
+                string destFile = fileDir + fileName.Replace(fileExt, assExt);
+                if (System.IO.File.Exists(assFile)&&!System.IO.File.Exists(destFile))
+                {
+                    System.IO.File.Copy(assFile, destFile);
+                }
+            }
+            MessageBox.Show("修改完成");
+        }
+
+        public void changeByMedia(List<string> fileListMedia, List<string> fileList)
         {
             RegexTypes types = RegexTypes.KH;
             Regex regex = new Regex(@"\[[0.0-9.0]{2,4}\]");
             Regex huabig5regex = new Regex(@"第[0.0-9.0]{2,4}話");
             Regex huagbregex = new Regex(@"第[0.0-9.0]{2,4}话");
-            Regex numRegex = new Regex(@"\s[0.0-9.0]{2,4}\s");
+            Regex numRegex = new Regex(@"[^0 - 9]");
+            Regex juregex = new Regex(@"第[0.0-9.0]{2,4}局");
+            Regex pointregex = new Regex(@"[0.0-9.0]{2,4}.\s");
+            Regex EPregex = new Regex(@"EP[0.0-9.0]{2,2}\s");
             Regex OVARegex = new Regex(@"OVA");
             Regex OVAKHRegex = new Regex(@"OVA");
             int fileListMediaCount = fileListMedia.Count;
             int fileListMediaRealCount = 0;
             for (int i = 0; i < fileListMedia.Count; i++)
             {
-                string mediaDir = fileListMedia[i].fileUrl.Substring(0, fileListMedia[i].fileUrl.LastIndexOf("\\") + 1);
-                string mediaName = fileListMedia[i].fileUrl.Substring(fileListMedia[i].fileUrl.LastIndexOf("\\") + 1);
+                string mediaDir = fileListMedia[i].Substring(0, fileListMedia[i].LastIndexOf("\\") + 1);
+                string mediaName = fileListMedia[i].Substring(fileListMedia[i].LastIndexOf("\\") + 1);
                 string mediaEqNumResult;
                 if (regex.Match(mediaName).Success)
                 {
@@ -60,6 +85,21 @@ namespace ChangeFileName
                 {
                     types = RegexTypes.GB;
                     mediaEqNumResult = huagbregex.Match(mediaName).ToString();
+                }
+                else if (juregex.Match(mediaName).Success)
+                {
+                    types = RegexTypes.JU;
+                    mediaEqNumResult = juregex.Match(mediaName).ToString();
+                }
+                else if (EPregex.Match(mediaName).Success)
+                {
+                    types = RegexTypes.EP;
+                    mediaEqNumResult = EPregex.Match(mediaName).ToString();
+                }
+                else if (pointregex.Match(mediaName).Success)
+                {
+                    types = RegexTypes.POINT;
+                    mediaEqNumResult = pointregex.Match(mediaName).ToString();
                 }
                 else if (OVARegex.Match(mediaName).Success)
                 {
@@ -95,6 +135,15 @@ namespace ChangeFileName
                         case RegexTypes.GB:
                             mediaNum = Convert.ToDouble(mediaEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("话", ""));
                             break;
+                        case RegexTypes.JU:
+                            mediaNum = Convert.ToDouble(mediaEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("局", ""));
+                            break;
+                        case RegexTypes.POINT:
+                            mediaNum = Convert.ToDouble(mediaEqNumResult.Replace("[", "").Replace("]", "").Replace(".", ""));
+                            break;
+                        case RegexTypes.EP:
+                            mediaNum = Convert.ToDouble(mediaEqNumResult.Replace("EP", ""));
+                            break;
                         case RegexTypes.NUM:
                             mediaNum = Convert.ToDouble(mediaEqNumResult.Replace("[", "").Replace("]", ""));
                             break;
@@ -114,7 +163,7 @@ namespace ChangeFileName
                 for (int j = 0; j < fileList.Count; j++)
                 {
                     string assName =
-                        fileList[j].fileUrl.Substring(fileList[j].fileUrl.LastIndexOf("\\") + 1);
+                        fileList[j].Substring(fileList[j].LastIndexOf("\\") + 1);
                     string assEqNumResult;
                     if (regex.Match(assName).Success)
                     {
@@ -130,6 +179,21 @@ namespace ChangeFileName
                     {
                         types = RegexTypes.GB;
                         assEqNumResult = huagbregex.Match(assName).ToString();
+                    }
+                    else if (juregex.Match(assName).Success)
+                    {
+                        types = RegexTypes.JU;
+                        assEqNumResult = juregex.Match(assName).ToString();
+                    }
+                    else if (EPregex.Match(assName).Success)
+                    {
+                        types = RegexTypes.EP;
+                        assEqNumResult = EPregex.Match(assName).ToString();
+                    }
+                    else if (pointregex.Match(assName).Success)
+                    {
+                        types = RegexTypes.POINT;
+                        assEqNumResult = pointregex.Match(assName).ToString();
                     }
                     else if (OVARegex.Match(assName).Success)
                     {
@@ -165,6 +229,15 @@ namespace ChangeFileName
                             case RegexTypes.GB:
                                 assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("话", ""));
                                 break;
+                            case RegexTypes.JU:
+                                assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("局", ""));
+                                break;
+                            case RegexTypes.POINT:
+                                assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace(".", ""));
+                                break;
+                            case RegexTypes.EP:
+                                assNum = Convert.ToDouble(assEqNumResult.Replace("EP", ""));
+                                break;
                             case RegexTypes.NUM:
                                 assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", ""));
                                 break;
@@ -183,11 +256,11 @@ namespace ChangeFileName
                     if (assNum == mediaNum)
                     {
                         string ext = mediaName.Substring(mediaName.LastIndexOf(".") + 1);
-                        string assDestName = mediaDir + fileListMedia[i].fileUrl.Substring(fileListMedia[i].fileUrl.LastIndexOf("\\") + 1).Replace(ext, "ass");
-                        if (System.IO.File.Exists(fileList[j].fileUrl))
+                        string assDestName = mediaDir + fileListMedia[i].Substring(fileListMedia[i].LastIndexOf("\\") + 1).Replace(ext, "ass");
+                        if (System.IO.File.Exists(fileList[j]))
                         {
-                            System.IO.File.Copy(fileList[j].fileUrl, assDestName);
-                            fileList[i].fileUrl = assDestName;
+                            System.IO.File.Copy(fileList[j], assDestName);
+                            fileList[i] = assDestName;
                             fileListMediaRealCount++;
                             break;
                         }
@@ -204,19 +277,22 @@ namespace ChangeFileName
             }
         }
 
-        public void renameSort(List<BaseFile> fileList)
+        public List<string> renameSort(List<string> fileList)
         {
             RegexTypes types = RegexTypes.KH;
             Regex regex = new Regex(@"\[[0.0-9.0]{2,4}\]");
             Regex huabig5regex = new Regex(@"第[0.0-9.0]{2,4}話");
             Regex huagbregex = new Regex(@"第[0.0-9.0]{2,4}话");
+            Regex juregex = new Regex(@"第[0.0-9.0]{2,4}局");
+            Regex pointregex = new Regex(@"[0.0-9.0]{2,4}.");
             Regex numRegex = new Regex(@"\s[0.0-9.0]{2,4}\s");
+            Regex EPregex = new Regex(@"EP[0.0-9.0]{2,2}.");
             Regex OVARegex = new Regex(@"OVA");
             Regex OVAKHRegex = new Regex(@"OVA");
             for (int j = 0; j < fileList.Count; j++)
             {
                 string assName =
-                    fileList[j].fileUrl.Substring(fileList[j].fileUrl.LastIndexOf("\\") + 1);
+                    fileList[j].Substring(fileList[j].LastIndexOf("\\") + 1);
                 string assEqNumResult;
                 if (regex.Match(assName).Success)
                 {
@@ -232,6 +308,21 @@ namespace ChangeFileName
                 {
                     types = RegexTypes.GB;
                     assEqNumResult = huagbregex.Match(assName).ToString();
+                }
+                else if (juregex.Match(assName).Success)
+                {
+                    types = RegexTypes.JU;
+                    assEqNumResult = juregex.Match(assName).ToString();
+                }
+                else if (EPregex.Match(assName).Success)
+                {
+                    types = RegexTypes.EP;
+                    assEqNumResult = EPregex.Match(assName).ToString();
+                }
+                else if (pointregex.Match(assName).Success)
+                {
+                    types = RegexTypes.POINT;
+                    assEqNumResult = pointregex.Match(assName).ToString();
                 }
                 else if (OVARegex.Match(assName).Success)
                 {
@@ -268,6 +359,15 @@ namespace ChangeFileName
                         case RegexTypes.GB:
                             assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("话", ""));
                             break;
+                        case RegexTypes.JU:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("局", ""));
+                            break;
+                        case RegexTypes.POINT:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace(".", ""));
+                            break;
+                        case RegexTypes.EP:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("EP", ""));
+                            break;
                         case RegexTypes.NUM:
                             assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", ""));
                             break;
@@ -287,12 +387,12 @@ namespace ChangeFileName
                     {
                         resultNum = assEqNumResult.Replace(assNum.ToString(), (j + 1).ToString());
                     }
-                    string assDestName = fileList[j].fileUrl.Replace(assEqNumResult, resultNum);
-                    if (System.IO.File.Exists(fileList[j].fileUrl))
+                    string assDestName = fileList[j].Replace(assEqNumResult, resultNum);
+                    if (System.IO.File.Exists(fileList[j]))
                     {
-                        System.IO.File.Copy(fileList[j].fileUrl, assDestName);
-                        System.IO.File.Delete(fileList[j].fileUrl);
-                        fileList[j].fileUrl = assDestName;
+                        System.IO.File.Copy(fileList[j], assDestName);
+                        System.IO.File.Delete(fileList[j]);
+                        fileList[j] = assDestName;
                     }
                 }
                 catch (Exception exception)
@@ -301,6 +401,7 @@ namespace ChangeFileName
                 }
             }
             MessageBox.Show("修改完成：" + fileList.Count + "个");
+            return fileList;
         }
     }
 }

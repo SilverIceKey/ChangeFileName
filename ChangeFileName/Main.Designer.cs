@@ -1,4 +1,7 @@
-﻿namespace ChangeFileName
+﻿using System;
+using System.Windows.Forms;
+
+namespace ChangeFileName
 {
     partial class Main
     {
@@ -38,6 +41,7 @@
             this.fileSelectedMedia = new System.Windows.Forms.ListBox();
             this.selectMedia = new System.Windows.Forms.Button();
             this.renamesort = new System.Windows.Forms.Button();
+            this.editsort = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // change
@@ -84,6 +88,7 @@
             // 
             // fileSelected
             // 
+            this.fileSelected.AllowDrop = true;
             this.fileSelected.ItemHeight = 12;
             this.fileSelected.Location = new System.Drawing.Point(39, 50);
             this.fileSelected.Name = "fileSelected";
@@ -102,7 +107,7 @@
             // 
             // fileSelectedMedia
             // 
-            this.fileSelectedMedia.FormattingEnabled = true;
+            this.fileSelectedMedia.AllowDrop = true;
             this.fileSelectedMedia.ItemHeight = 12;
             this.fileSelectedMedia.Location = new System.Drawing.Point(454, 50);
             this.fileSelectedMedia.Name = "fileSelectedMedia";
@@ -130,11 +135,22 @@
             this.renamesort.UseVisualStyleBackColor = true;
             this.renamesort.Click += new System.EventHandler(this.renamesort_Click);
             // 
+            // editsort
+            // 
+            this.editsort.Location = new System.Drawing.Point(228, 415);
+            this.editsort.Name = "editsort";
+            this.editsort.Size = new System.Drawing.Size(75, 23);
+            this.editsort.TabIndex = 10;
+            this.editsort.Text = "顺序修改";
+            this.editsort.UseVisualStyleBackColor = true;
+            this.editsort.Click += new System.EventHandler(this.editsort_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(966, 458);
+            this.Controls.Add(this.editsort);
             this.Controls.Add(this.renamesort);
             this.Controls.Add(this.selectMedia);
             this.Controls.Add(this.fileSelectedMedia);
@@ -152,6 +168,8 @@
 
         }
 
+
+
         #endregion
 
         private System.Windows.Forms.Button change;
@@ -164,6 +182,7 @@
         private System.Windows.Forms.ListBox fileSelectedMedia;
         private System.Windows.Forms.Button selectMedia;
         private System.Windows.Forms.Button renamesort;
+        private Button editsort;
     }
 }
 

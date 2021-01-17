@@ -6,5 +6,5 @@ D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.Gene
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.exe
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.pdb
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.Main.resources
-D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csprojAssemblyReference.cache
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.CoreCompileInputs.cache
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csprojAssemblyReference.cache

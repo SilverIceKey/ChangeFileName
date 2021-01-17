@@ -8,6 +8,6 @@ namespace ChangeFileName
 {
     enum RegexTypes
     {
-        KH,BIG5,GB,NUM,OVA
+        KH,BIG5,GB,NUM,JU,POINT,OVA,EP
     }
 }

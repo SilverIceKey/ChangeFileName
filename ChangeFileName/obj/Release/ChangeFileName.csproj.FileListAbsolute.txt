@@ -1,0 +1,10 @@
+D:\Project\C#\ChangeFileName\ChangeFileName\bin\Release\ChangeFileName.exe.config
+D:\Project\C#\ChangeFileName\ChangeFileName\bin\Release\ChangeFileName.exe
+D:\Project\C#\ChangeFileName\ChangeFileName\bin\Release\ChangeFileName.pdb
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Release\ChangeFileName.csprojAssemblyReference.cache
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Release\ChangeFileName.Main.resources
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Release\ChangeFileName.Properties.Resources.resources
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Release\ChangeFileName.csproj.GenerateResource.cache
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Release\ChangeFileName.csproj.CoreCompileInputs.cache
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Release\ChangeFileName.exe
+D:\Project\C#\ChangeFileName\ChangeFileName\obj\Release\ChangeFileName.pdb
