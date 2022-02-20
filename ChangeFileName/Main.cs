@@ -232,5 +232,43 @@ namespace ChangeFileName
                 utils.sortChangeed(fileList,fileListMedia);
             }
         }
+
+        private void embyChange_Click(object sender, EventArgs e)
+        {
+            utils = new FileNameChangeUtils();
+            if (fileList.Count > 0)
+            {
+                fileSelected.Items.Clear();
+                fileList = utils.EmbyRenameSort(embyPrefix.Text,fileList);
+                foreach (string tmp in fileList)
+                {
+                    string fileName = tmp.Substring(tmp.LastIndexOf("\\") + 1);
+                    fileSelected.Items.Add(fileName);
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先选择需要修改的文件");
+            }
+        }
+
+        private void assChange_Click(object sender, EventArgs e)
+        {
+            utils = new FileNameChangeUtils();
+            if (fileList.Count > 0)
+            {
+                fileSelected.Items.Clear();
+                fileList = utils.EmbyRenameAssSort(fileList);
+                foreach (string tmp in fileList)
+                {
+                    string fileName = tmp.Substring(tmp.LastIndexOf("\\") + 1);
+                    fileSelected.Items.Add(fileName);
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先选择需要修改的文件");
+            }
+        }
     }
 }

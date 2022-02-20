@@ -42,6 +42,10 @@ namespace ChangeFileName
             this.selectMedia = new System.Windows.Forms.Button();
             this.renamesort = new System.Windows.Forms.Button();
             this.editsort = new System.Windows.Forms.Button();
+            this.embyChange = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.embyPrefix = new System.Windows.Forms.TextBox();
+            this.assChange = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // change
@@ -145,11 +149,51 @@ namespace ChangeFileName
             this.editsort.UseVisualStyleBackColor = true;
             this.editsort.Click += new System.EventHandler(this.editsort_Click);
             // 
+            // embyChange
+            // 
+            this.embyChange.Location = new System.Drawing.Point(309, 415);
+            this.embyChange.Name = "embyChange";
+            this.embyChange.Size = new System.Drawing.Size(75, 23);
+            this.embyChange.TabIndex = 11;
+            this.embyChange.Text = "emby修改";
+            this.embyChange.UseVisualStyleBackColor = true;
+            this.embyChange.Click += new System.EventHandler(this.embyChange_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(252, 369);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 12);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "emby前缀:";
+            // 
+            // embyPrefix
+            // 
+            this.embyPrefix.Location = new System.Drawing.Point(309, 366);
+            this.embyPrefix.Name = "embyPrefix";
+            this.embyPrefix.Size = new System.Drawing.Size(100, 21);
+            this.embyPrefix.TabIndex = 13;
+            // 
+            // assChange
+            // 
+            this.assChange.Location = new System.Drawing.Point(390, 415);
+            this.assChange.Name = "assChange";
+            this.assChange.Size = new System.Drawing.Size(91, 23);
+            this.assChange.TabIndex = 14;
+            this.assChange.Text = "emby字幕修改";
+            this.assChange.UseVisualStyleBackColor = true;
+            this.assChange.Click += new System.EventHandler(this.assChange_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(966, 458);
+            this.Controls.Add(this.assChange);
+            this.Controls.Add(this.embyPrefix);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.embyChange);
             this.Controls.Add(this.editsort);
             this.Controls.Add(this.renamesort);
             this.Controls.Add(this.selectMedia);
@@ -183,6 +227,10 @@ namespace ChangeFileName
         private System.Windows.Forms.Button selectMedia;
         private System.Windows.Forms.Button renamesort;
         private Button editsort;
+        private Button embyChange;
+        private Label label3;
+        private TextBox embyPrefix;
+        private Button assChange;
     }
 }
 

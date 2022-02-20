@@ -403,5 +403,160 @@ namespace ChangeFileName
             MessageBox.Show("修改完成：" + fileList.Count + "个");
             return fileList;
         }
+        public List<string> EmbyRenameSort(string prefix,List<string> fileList)
+        {
+            RegexTypes types = RegexTypes.KH;
+            Regex regex = new Regex(@"\[[0.0-9.0]{2,4}\]");
+            Regex huabig5regex = new Regex(@"第[0.0-9.0]{2,4}話");
+            Regex huagbregex = new Regex(@"第[0.0-9.0]{2,4}话");
+            Regex juregex = new Regex(@"第[0.0-9.0]{2,4}局");
+            Regex pointregex = new Regex(@"[0.0-9.0]{2,4}.");
+            Regex numRegex = new Regex(@"\s[0.0-9.0]{2,4}\s");
+            Regex EPregex = new Regex(@"EP[0.0-9.0]{2,2}.");
+            Regex OVARegex = new Regex(@"OVA");
+            Regex OVAKHRegex = new Regex(@"OVA");
+            for (int j = 0; j < fileList.Count; j++)
+            {
+                string assName =
+                    fileList[j].Substring(fileList[j].LastIndexOf("\\") + 1);
+                string filepath = fileList[j].Substring(0,fileList[j].LastIndexOf("\\") + 1);
+                string ext = fileList[j].Substring(fileList[j].LastIndexOf(".") + 1);
+                string assEqNumResult;
+                if (regex.Match(assName).Success)
+                {
+                    types = RegexTypes.KH;
+                    assEqNumResult = regex.Match(assName).ToString();
+                }
+                else if (huabig5regex.Match(assName).Success)
+                {
+                    types = RegexTypes.BIG5;
+                    assEqNumResult = huabig5regex.Match(assName).ToString();
+                }
+                else if (huagbregex.Match(assName).Success)
+                {
+                    types = RegexTypes.GB;
+                    assEqNumResult = huagbregex.Match(assName).ToString();
+                }
+                else if (juregex.Match(assName).Success)
+                {
+                    types = RegexTypes.JU;
+                    assEqNumResult = juregex.Match(assName).ToString();
+                }
+                else if (EPregex.Match(assName).Success)
+                {
+                    types = RegexTypes.EP;
+                    assEqNumResult = EPregex.Match(assName).ToString();
+                }
+                else if (pointregex.Match(assName).Success)
+                {
+                    types = RegexTypes.POINT;
+                    assEqNumResult = pointregex.Match(assName).ToString();
+                }
+                else if (OVARegex.Match(assName).Success)
+                {
+                    types = RegexTypes.OVA;
+                    assEqNumResult = OVARegex.Match(assName).ToString();
+                }
+                else if (OVAKHRegex.Match(assName).Success)
+                {
+                    types = RegexTypes.OVA;
+                    assEqNumResult = OVAKHRegex.Match(assName).ToString();
+                }
+                else
+                {
+                    types = RegexTypes.NUM;
+                    assEqNumResult = numRegex.Match(assName).ToString();
+                }
+                if (!string.IsNullOrEmpty(assEqNumResult))
+                {
+                    assEqNumResult = assEqNumResult.Replace(assEqNumResult, "[" + assEqNumResult.Trim() + "]");
+                }
+                double assNum;
+                try
+                {
+                    assEqNumResult = assEqNumResult.Replace("[", "").Replace("]", "");
+                    string resultNum = "";
+                    switch (types)
+                    {
+                        case RegexTypes.KH:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", ""));
+                            break;
+                        case RegexTypes.BIG5:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("話", ""));
+                            break;
+                        case RegexTypes.GB:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("话", ""));
+                            break;
+                        case RegexTypes.JU:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace("第", "").Replace("局", ""));
+                            break;
+                        case RegexTypes.POINT:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", "").Replace(".", ""));
+                            break;
+                        case RegexTypes.EP:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("EP", ""));
+                            break;
+                        case RegexTypes.NUM:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", ""));
+                            break;
+                        case RegexTypes.OVA:
+                            assNum = -1;
+                            break;
+                        default:
+                            assNum = Convert.ToDouble(assEqNumResult.Replace("[", "").Replace("]", ""));
+                            break;
+                    }
+
+                    if (assNum < 10)
+                    {
+                        resultNum = "E0"+ assNum;
+                    }
+                    else
+                    {
+                        resultNum = "E"+assNum;
+                    }
+                    string assDestName = filepath + prefix + resultNum+"."+ext;
+                    if (System.IO.File.Exists(fileList[j]) && !System.IO.File.Exists(assDestName))
+                    {
+                        System.IO.File.Move(fileList[j], assDestName);
+                        // System.IO.File.Delete(fileList[j]);
+                        fileList[j] = assDestName;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    continue;
+                }
+            }
+            MessageBox.Show("修改完成：" + fileList.Count + "个");
+            return fileList;
+        }
+        public List<string> EmbyRenameAssSort(List<string> fileList)
+        {
+            for (int j = 0; j < fileList.Count; j++)
+            {
+                string assFullName =
+                    fileList[j].Substring(fileList[j].LastIndexOf("\\") + 1);
+                string assName = assFullName.Substring(0, assFullName.LastIndexOf("."));
+                string filepath = fileList[j].Substring(0, fileList[j].LastIndexOf("\\") + 1);
+                string ext = fileList[j].Substring(fileList[j].LastIndexOf(".") + 1);
+                try
+                {
+                    string assDestName = filepath + assName + ".chs." + ext;
+                    if (System.IO.File.Exists(fileList[j]) && !System.IO.File.Exists(assDestName))
+                    {
+                        System.IO.File.Move(fileList[j], assDestName);
+                        // System.IO.File.Delete(fileList[j]);
+                        fileList[j] = assDestName;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    continue;
+                }
+            }
+            MessageBox.Show("修改完成：" + fileList.Count + "个");
+            return fileList;
+        }
     }
 }

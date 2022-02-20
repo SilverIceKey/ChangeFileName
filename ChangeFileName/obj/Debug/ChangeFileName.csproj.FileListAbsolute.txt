@@ -8,3 +8,14 @@ D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.pdb
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.Main.resources
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.CoreCompileInputs.cache
 D:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csprojAssemblyReference.cache
+E:\Project\C#\ChangeFileName\ChangeFileName\bin\Debug\ChangeFileName.exe.config
+E:\Project\C#\ChangeFileName\ChangeFileName\bin\Debug\ChangeFileName.exe
+E:\Project\C#\ChangeFileName\ChangeFileName\bin\Debug\ChangeFileName.pdb
+E:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.AssemblyReference.cache
+E:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.SuggestedBindingRedirects.cache
+E:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.Main.resources
+E:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.Properties.Resources.resources
+E:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.GenerateResource.cache
+E:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.CoreCompileInputs.cache
+E:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.exe
+E:\Project\C#\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.pdb
